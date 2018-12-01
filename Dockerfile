@@ -20,7 +20,11 @@ RUN apt-get update && apt-get install -y \
     # for ps command
     procps \
     # for ifconfig command
-    iproute
+    iproute \
+    sudo \
+    cron \
+    curl \
+    htop
 
 # INSTALL PHP EXTENSIONS VIA docker-php-ext-install SCRIPT
 RUN docker-php-ext-install \
@@ -56,6 +60,10 @@ RUN pecl install xdebug
 
 # TURN OFF XDEBUG AS DEFAULT
 COPY php-config/xdebug.ini /usr/local/etc/php/conf.d/xdebug.off
+
+# Add global functions for turn on/off xdebug
+RUN echo "sudo mv /usr/local/etc/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.off && sudo pkill -o -USR2 php-fpm" > /usr/bin/xoff && chmod +x /usr/bin/xoff \
+    && echo "sudo mv /usr/local/etc/php/conf.d/xdebug.off /usr/local/etc/php/conf.d/xdebug.ini && sudo pkill -o -USR2 php-fpm" > /usr/bin/xon && chmod +x /usr/bin/xon
 
 # COMPOSER
 ENV COMPOSER_HOME /usr/local/composer
