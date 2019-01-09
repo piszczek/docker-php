@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.1-fpm
 LABEL maimaintainer="Andrzej Piszczek <andrzej.piszczek@codibly.com>"
 
 # INSTALL ESSENTIALS LIBS TO COMPILE PHP EXTENSTIONS
